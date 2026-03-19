@@ -105,4 +105,5 @@ export interface Notification {
 }
 
 // ── Bridge (re-exported from bridge.ts) ─────────────────────────
+export { postToShell, onBridgeMessage } from './bridge'
 export type { BridgeMessage, BridgeEventType } from './bridge'

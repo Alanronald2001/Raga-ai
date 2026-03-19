@@ -1,7 +1,5 @@
-import React from 'react'
 import type { User, Notification } from './index'
 
-// ── Event Types ─────────────────────────────────────────────────
 export type BridgeEventType =
   | 'AUTH_TOKEN_READY'
   | 'AUTH_SIGNED_OUT'
@@ -9,7 +7,6 @@ export type BridgeEventType =
   | 'NOTIFICATION_PUSH'
   | 'MFE_READY'
 
-// ── Typed Payloads ──────────────────────────────────────────────
 interface AuthTokenReadyMessage {
   type: 'AUTH_TOKEN_READY'
   payload: { token: string; user: User }
@@ -35,7 +32,6 @@ interface MFEReadyMessage {
   payload?: never
 }
 
-// ── Discriminated Union ─────────────────────────────────────────
 export type BridgeMessage =
   | AuthTokenReadyMessage
   | AuthSignedOutMessage
@@ -43,21 +39,14 @@ export type BridgeMessage =
   | NotificationPushMessage
   | MFEReadyMessage
 
-// ── Helper: MFE → Shell ─────────────────────────────────────────
+// MFE → Shell (no React needed, just window)
 export function postToShell(msg: BridgeMessage): void {
   if (window.parent && window.parent !== window) {
     window.parent.postMessage(msg, '*')
   }
 }
 
-// ── Helper: Shell → MFE ─────────────────────────────────────────
-export function postToMFE(iframeRef: React.RefObject<HTMLIFrameElement>, msg: BridgeMessage): void {
-  if (iframeRef.current?.contentWindow) {
-    iframeRef.current.contentWindow.postMessage(msg, '*')
-  }
-}
-
-// ── Helper: Listen for bridge messages ──────────────────────────
+// Listen for bridge messages
 export function onBridgeMessage(handler: (msg: BridgeMessage) => void): () => void {
   const listener = (event: MessageEvent) => {
     if (event.data && typeof event.data.type === 'string') {

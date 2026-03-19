@@ -1,4 +1,4 @@
-import type { Patient } from '@healthos/shared-types'
+import type { Patient } from '@raga/shared-types'
 
 export const patients: Patient[] = [
   {

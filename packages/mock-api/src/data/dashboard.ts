@@ -1,4 +1,4 @@
-import type { KPICard, Appointment } from '@healthos/shared-types'
+import type { KPICard, Appointment } from '@raga/shared-types'
 
 export const kpiCards: KPICard[] = [
   {

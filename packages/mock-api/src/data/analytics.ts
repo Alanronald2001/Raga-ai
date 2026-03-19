@@ -1,4 +1,4 @@
-import type { AnalyticsData } from '@healthos/shared-types'
+import type { AnalyticsData } from '@raga/shared-types'
 
 export const analyticsData: AnalyticsData = {
   admissionsTrend: [

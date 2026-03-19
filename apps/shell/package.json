@@ -10,11 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "@raga/mock-api": "workspace:*",
     "@raga/shared-types": "workspace:*",
     "@raga/shared-ui": "workspace:*",
-    "@raga/mock-api": "workspace:*"
+    "firebase": "^12.11.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

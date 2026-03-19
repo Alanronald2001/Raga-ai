@@ -1,0 +1,14 @@
+{
+  "name": "raga-ai",
+  "private": true,
+  "scripts": {
+    "dev:all": "turbo run dev",
+    "build:all": "turbo run build",
+    "lint:all": "turbo run lint",
+    "clean:all": "turbo run clean"
+  },
+  "devDependencies": {
+    "pnpm": "^9.0.0",
+    "turbo": "latest"
+  }
+}

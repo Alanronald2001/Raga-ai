@@ -6,5 +6,7 @@ export { Input } from './Input'
 export { Avatar } from './Avatar'
 export { Skeleton, SkeletonCard } from './Skeleton'
 export { Toggle } from './Toggle'
+export { ErrorBoundary, withErrorBoundary } from './ErrorBoundary'
+export { DashboardSkeleton, PatientsTableSkeleton, AnalyticsSkeleton } from './PageSkeletons'
 
 export type { ButtonVariant, ButtonSize } from './Button'

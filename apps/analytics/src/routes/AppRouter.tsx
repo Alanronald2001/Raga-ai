@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { Skeleton } from '@raga/shared-ui'
-
+import { ErrorBoundary } from '@raga/shared-ui'
 // ── Lazy pages ────────────────────────────────────────────────────
 const DashboardPage = lazy(() => import('../pages/DashboardPage'))
 const AnalyticsPage = lazy(() => import('../pages/AnalyticsPage'))
@@ -34,9 +34,11 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: (
-      <Suspense fallback={<PageSkeleton />}>
-        <DashboardPage />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<PageSkeleton />}>
+          <DashboardPage />
+        </Suspense>
+      </ErrorBoundary>
     ),
   },
 
@@ -44,9 +46,11 @@ const router = createBrowserRouter([
   {
     path: '/analytics',
     element: (
-      <Suspense fallback={<PageSkeleton />}>
-        <AnalyticsPage />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<PageSkeleton />}>
+          <AnalyticsPage />
+        </Suspense>
+      </ErrorBoundary>
     ),
   },
 

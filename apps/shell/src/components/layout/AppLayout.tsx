@@ -1,22 +1,37 @@
-import { useState, useEffect, useCallback } from 'react'
+// Add to AppLayout.tsx — replace the existing file's imports + body
+
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Outlet } from 'react-router-dom'
+import { useMFEBridge } from '../../hooks/useMFEBridge'
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
 import NotificationPanel from '../notifications/NotificationPanel'
 
-const SIDEBAR_KEY = 'raga:sidebar:collapsed'
+const SIDEBAR_KEY = 'healthos:sidebar:collapsed'
 
 export default function AppLayout() {
-  // ── Sidebar collapse — persisted ──────────────────────────────
-  const [collapsed, setCollapsed] = useState<boolean>(() => {
+  const [collapsed, setCollapsed] = useState(() => {
     try {
       return localStorage.getItem(SIDEBAR_KEY) === 'true'
     } catch {
       return false
     }
   })
-
   const [notifOpen, setNotifOpen] = useState(false)
+
+  // ── MFE iframe refs ────────────────────────────────────────────
+  const patientsRef = useRef<HTMLIFrameElement>(null)
+  const analyticsRef = useRef<HTMLIFrameElement>(null)
+
+  // ── Bridge — centralises all cross-frame messaging ─────────────
+  const { postToPatients, postToAnalytics } = useMFEBridge({
+    patientsRef,
+    analyticsRef,
+  })
+
+  // Expose refs via context or pass down if needed
+  // For now AppLayout just holds them — MFEFrame components
+  // use their own onLoad to send initial auth
 
   const toggleSidebar = useCallback(() => {
     setCollapsed(prev => {
@@ -28,15 +43,13 @@ export default function AppLayout() {
     })
   }, [])
 
-  // Close notification panel on outside click
   useEffect(() => {
     if (!notifOpen) return
     const handler = (e: MouseEvent) => {
       const panel = document.getElementById('notif-panel')
       const bell = document.getElementById('notif-bell')
-      if (panel && !panel.contains(e.target as Node) && bell && !bell.contains(e.target as Node)) {
+      if (panel && !panel.contains(e.target as Node) && bell && !bell.contains(e.target as Node))
         setNotifOpen(false)
-      }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
@@ -44,7 +57,6 @@ export default function AppLayout() {
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-slate-50">
-      {/* ── Desktop Sidebar ──────────────────────────────────── */}
       <aside
         className={[
           'hidden md:flex flex-col shrink-0 h-full',
@@ -56,9 +68,7 @@ export default function AppLayout() {
         <Sidebar collapsed={collapsed} onToggle={toggleSidebar} />
       </aside>
 
-      {/* ── Main column ─────────────────────────────────────── */}
       <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
-        {/* TopBar */}
         <TopBar
           sidebarCollapsed={collapsed}
           onToggleSidebar={toggleSidebar}
@@ -66,14 +76,11 @@ export default function AppLayout() {
           notifOpen={notifOpen}
         />
 
-        {/* Content + notification panel side by side */}
         <div className="relative flex flex-1 min-h-0 overflow-hidden">
-          {/* iframe / page area */}
           <main className="flex-1 min-w-0 overflow-hidden">
             <Outlet />
           </main>
 
-          {/* Notification slide-over panel */}
           {notifOpen && (
             <div
               id="notif-panel"
@@ -88,10 +95,10 @@ export default function AppLayout() {
           )}
         </div>
 
-        {/* ── Mobile bottom tab bar ────────────────────────── */}
         <nav
           className="md:hidden flex items-center justify-around
-                        border-t border-slate-100 bg-white h-16 shrink-0 px-2"
+                        border-t border-slate-100 bg-white h-16
+                        shrink-0 px-2"
         >
           <MobileTab to="/" icon="🏠" label="Home" />
           <MobileTab to="/patients" icon="👥" label="Patients" />
@@ -102,9 +109,7 @@ export default function AppLayout() {
   )
 }
 
-// ── Mobile tab button ─────────────────────────────────────────────
 import { NavLink } from 'react-router-dom'
-
 function MobileTab({ to, icon, label }: { to: string; icon: string; label: string }) {
   return (
     <NavLink
@@ -112,8 +117,8 @@ function MobileTab({ to, icon, label }: { to: string; icon: string; label: strin
       end={to === '/'}
       className={({ isActive }) =>
         [
-          'flex flex-col items-center gap-0.5 px-4 py-1 rounded-xl text-xs font-medium',
-          'transition-colors duration-150',
+          'flex flex-col items-center gap-0.5 px-4 py-1 rounded-xl',
+          'text-xs font-medium transition-colors duration-150',
           isActive ? 'text-indigo-600' : 'text-slate-400 hover:text-slate-600',
         ].join(' ')
       }

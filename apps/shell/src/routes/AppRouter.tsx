@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom'
 import { Skeleton } from '@raga/shared-ui'
 import AuthGuard from '../components/layout/AuthGuard'
-
+import { ErrorBoundary } from '@raga/shared-ui'
 // ── Lazy pages ────────────────────────────────────────────────────
 const LoginPage = lazy(() => import('../pages/LoginPage'))
 const AppLayout = lazy(() => import('../layout/AppLayout'))
@@ -46,11 +46,15 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <SuspenseRoute>
-        <AppLayout>
-          <AuthGuard />
-        </AppLayout>
-      </SuspenseRoute>
+      <AuthGuard>
+        <SuspenseRoute>
+          <ErrorBoundary>
+            <AppLayout>
+              <Outlet />
+            </AppLayout>
+          </ErrorBoundary>
+        </SuspenseRoute>
+      </AuthGuard>
     ),
     children: [
       // Default → dashboard

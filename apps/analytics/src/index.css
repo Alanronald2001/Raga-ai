@@ -1,3 +1,4 @@
+@import '@raga/shared-ui/src/styles.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -1,0 +1,277 @@
+/* ═══════════════════════════════════════════════════════════════
+   HealthOS Design Tokens
+   Import in each app's index.css:
+   @import '@raga/shared-ui/src/styles.css';
+════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Backgrounds ────────────────────────────────────────────── */
+  --color-bg-primary: #f1f5f9; /* main content area       */
+  --color-bg-secondary: #ffffff; /* cards, panels           */
+  --color-bg-tertiary: #f8fafc; /* subtle section bg       */
+  --color-sidebar: #0f172a; /* dark sidebar            */
+  --color-sidebar-hover: #1e293b; /* sidebar item hover      */
+  --color-sidebar-active: #1e3a5f; /* sidebar active item     */
+  --color-sidebar-border: #1e293b; /* sidebar divider         */
+
+  /* ── Accent ─────────────────────────────────────────────────── */
+  --color-accent: #0d9488; /* teal primary            */
+  --color-accent-hover: #0f766e; /* teal darker             */
+  --color-accent-light: #ccfbf1; /* teal tint               */
+  --color-accent-fg: #ffffff; /* text on accent          */
+
+  /* ── Brand ──────────────────────────────────────────────────── */
+  --color-brand: #4f46e5; /* indigo                  */
+  --color-brand-hover: #4338ca;
+  --color-brand-light: #eef2ff;
+  --color-brand-fg: #ffffff;
+
+  /* ── Semantic ────────────────────────────────────────────────── */
+  --color-success: #16a34a;
+  --color-success-light: #dcfce7;
+  --color-success-fg: #14532d;
+
+  --color-warning: #d97706;
+  --color-warning-light: #fef3c7;
+  --color-warning-fg: #78350f;
+
+  --color-danger: #dc2626;
+  --color-danger-light: #fee2e2;
+  --color-danger-fg: #7f1d1d;
+
+  --color-info: #0284c7;
+  --color-info-light: #e0f2fe;
+  --color-info-fg: #0c4a6e;
+
+  /* ── Text ────────────────────────────────────────────────────── */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #94a3b8;
+  --color-text-disabled: #cbd5e1;
+  --color-text-inverse: #f8fafc;
+  --color-text-accent: #0d9488;
+  --color-text-brand: #4f46e5;
+
+  /* ── Borders ─────────────────────────────────────────────────── */
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+  --color-border-focus: #0d9488;
+
+  /* ── Typography scale ────────────────────────────────────────── */
+  --text-2xs: 0.625rem; /* 10px */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* ── Spacing ─────────────────────────────────────────────────── */
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4px  */
+  --space-2: 0.5rem; /* 8px  */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-7: 1.75rem; /* 28px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+
+  /* ── Shadows ─────────────────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  --shadow-accent: 0 4px 14px 0 rgb(13 148 136 / 0.25);
+  --shadow-brand: 0 4px 14px 0 rgb(79 70 229 / 0.25);
+
+  /* ── Border radius ───────────────────────────────────────────── */
+  --radius-xs: 0.25rem; /* 4px  */
+  --radius-sm: 0.375rem; /* 6px  */
+  --radius-md: 0.5rem; /* 8px  */
+  --radius-lg: 0.75rem; /* 12px */
+  --radius-xl: 1rem; /* 16px */
+  --radius-2xl: 1.5rem; /* 24px */
+  --radius-full: 9999px;
+
+  /* ── Transitions ─────────────────────────────────────────────── */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+  --transition-spring: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Z-index scale ───────────────────────────────────────────── */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 20;
+  --z-sticky: 30;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+  --z-tooltip: 70;
+
+  /* ── Sidebar dimensions ──────────────────────────────────────── */
+  --sidebar-width: 240px;
+  --sidebar-width-collapsed: 64px;
+  --topbar-height: 56px;
+}
+
+/* ── Base resets ─────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
+}
+
+/* ── Focus ring ──────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* ── Selection ───────────────────────────────────────────────────── */
+::selection {
+  background: var(--color-accent-light);
+  color: var(--color-accent-fg);
+}
+
+/* ── Animations ──────────────────────────────────────────────────── */
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in var(--transition-base) both;
+}
+.animate-fade-in-up {
+  animation: fade-in-up var(--transition-base) both;
+}
+.animate-slide-in-right {
+  animation: slide-in-right var(--transition-base) both;
+}
+.animate-slide-in-left {
+  animation: slide-in-left var(--transition-base) both;
+}
+.animate-scale-in {
+  animation: scale-in var(--transition-spring) both;
+}
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}

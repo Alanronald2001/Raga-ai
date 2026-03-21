@@ -6,38 +6,47 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string
   helperText?: string
   fullWidth?: boolean
+  rightSection?: React.ReactNode
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, fullWidth, className, id: externalId, ...props }, ref) => {
+  ({ label, error, helperText, fullWidth, rightSection, className, id: externalId, ...props }, ref) => {
     const generatedId = useId()
     const id = externalId ?? generatedId
 
     return (
-      <div className={clsx('flex flex-col gap-1', fullWidth && 'w-full')}>
+      <div className={clsx('flex flex-col gap-1.5', fullWidth && 'w-full')}>
         {label && (
-          <label htmlFor={id} className="text-sm font-medium text-slate-700 select-none">
+          <label htmlFor={id} className="text-sm font-semibold text-slate-600 select-none px-0.5">
             {label}
           </label>
         )}
-        <input
-          ref={ref}
-          id={id}
-          className={clsx(
-            'rounded-lg border px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400',
-            'bg-white outline-none transition-colors duration-150',
-            'focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500',
-            'disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed',
-            error
-              ? 'border-red-400 focus:ring-red-400 focus:border-red-400'
-              : 'border-slate-200 hover:border-slate-300',
-            fullWidth && 'w-full',
-            className
+        <div className="relative group">
+          <input
+            ref={ref}
+            id={id}
+            className={clsx(
+              'rounded-xl border px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400',
+              'bg-white outline-none transition-all duration-150',
+              'focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm',
+              'disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed',
+              error
+                ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500'
+                : 'border-slate-200 hover:border-slate-300',
+              rightSection && 'pr-12',
+              fullWidth && 'w-full',
+              className
+            )}
+            aria-invalid={!!error}
+            aria-describedby={error ? `${id}-error` : helperText ? `${id}-helper` : undefined}
+            {...props}
+          />
+          {rightSection && (
+            <div className="absolute right-0 top-0 h-full flex items-center pr-3">
+              {rightSection}
+            </div>
           )}
-          aria-invalid={!!error}
-          aria-describedby={error ? `${id}-error` : helperText ? `${id}-helper` : undefined}
-          {...props}
-        />
+        </div>
         {error && (
           <p id={`${id}-error`} className="text-xs text-red-600 flex items-center gap-1">
             <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="currentColor">

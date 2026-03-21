@@ -1,12 +1,13 @@
 /// <reference lib="webworker" />
-declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any }
+
+const sw = self as unknown as ServiceWorkerGlobalScope & { __WB_MANIFEST: any }
 
 // Precache manifest injection point
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const manifest = self.__WB_MANIFEST
 
 // ── Constants ─────────────────────────────────────────────────────
-const CACHE_NAME = 'healthos-shell-v1'
+const CACHE_NAME = 'healthos-shell-v2'
 const OFFLINE_URL = '/offline.html'
 const SHELL_ASSETS = [
   '/',
@@ -17,37 +18,37 @@ const SHELL_ASSETS = [
 ]
 
 // ── Install: precache shell assets ────────────────────────────────
-self.addEventListener('install', (event: ExtendableEvent) => {
+sw.addEventListener('install', (event: ExtendableEvent) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async cache => {
       // Add each asset individually so one missing file doesn't abort the install
       await Promise.allSettled(SHELL_ASSETS.map(url => cache.add(url).catch(() => {})))
-      await self.skipWaiting()
+      await sw.skipWaiting()
     })
   )
 })
 
 // ── Activate: clean up old caches ─────────────────────────────────
-self.addEventListener('activate', (event: ExtendableEvent) => {
+sw.addEventListener('activate', (event: ExtendableEvent) => {
   event.waitUntil(
     caches
       .keys()
       .then(keys =>
         Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
       )
-      .then(() => self.clients.claim()) // take control of all tabs
+      .then(() => sw.clients.claim()) // take control of all tabs
   )
 })
 
 // ── Fetch: network-first with offline fallback ────────────────────
-self.addEventListener('fetch', (event: FetchEvent) => {
+sw.addEventListener('fetch', (event: FetchEvent) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') return
 
   const url = new URL(event.request.url)
 
   // Skip cross-origin requests (Firebase, CDNs — handled by Workbox)
-  if (url.origin !== self.location.origin) return
+  if (url.origin !== sw.location.origin) return
 
   // Skip Vite internal HMR / dev-server requests so they're never intercepted
   if (url.pathname.startsWith('/@vite/') || url.pathname.startsWith('/@fs/') || url.pathname.startsWith('/__vite')) return
@@ -93,7 +94,7 @@ interface PushPayload {
   url?: string
 }
 
-self.addEventListener('push', (event: PushEvent) => {
+sw.addEventListener('push', (event: PushEvent) => {
   let payload: PushPayload = {
     title: 'HealthOS',
     body: 'You have a new notification.',
@@ -121,7 +122,7 @@ self.addEventListener('push', (event: PushEvent) => {
     actions: buildActions(payload),
   }
 
-  event.waitUntil(self.registration.showNotification(payload.title, options))
+  event.waitUntil(sw.registration.showNotification(payload.title, options))
 })
 
 function buildActions(payload: PushPayload): NotificationAction[] {
@@ -144,7 +145,7 @@ function buildActions(payload: PushPayload): NotificationAction[] {
 }
 
 // ── Notification click ────────────────────────────────────────────
-self.addEventListener('notificationclick', (event: NotificationEvent) => {
+sw.addEventListener('notificationclick', (event: NotificationEvent) => {
   event.notification.close()
 
   const { action } = event
@@ -162,10 +163,10 @@ self.addEventListener('notificationclick', (event: NotificationEvent) => {
   }
 
   event.waitUntil(
-    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+    sw.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
       // If a shell window is already open, focus and navigate it
       for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && 'focus' in client) {
+        if (client.url.includes(sw.location.origin) && 'focus' in client) {
           client.focus()
           client.postMessage({
             type: 'NAVIGATE',
@@ -175,32 +176,22 @@ self.addEventListener('notificationclick', (event: NotificationEvent) => {
         }
       }
       // No window open — open a new one
-      return self.clients.openWindow(targetUrl)
+      return sw.clients.openWindow(targetUrl)
     })
   )
 })
 
 // Add inside the existing fetch listener, or as a new message listener
-self.addEventListener('message', (event: ExtendableMessageEvent) => {
+sw.addEventListener('message', (event: ExtendableMessageEvent) => {
+  console.log('[SW] Received message:', event.data?.type);
   if (event.data?.type !== '__SIMULATE_PUSH__') return
 
   const payload = event.data.payload
+  console.log('[SW] Simulating push for:', payload.title);
   const options: NotificationOptions = {
     body: payload.body,
     icon: '/icons/pwa-192x192.png',
-    badge: '/icons/pwa-192x192.png',
-    tag: payload.patientId ? `patient-${payload.patientId}` : 'healthos-general',
-    renotify: true,
-    data: {
-      url: payload.url ?? '/',
-      patientId: payload.patientId ?? null,
-      type: payload.type ?? 'info',
-    },
-    actions: [
-      { action: 'view', title: '👁 View' },
-      { action: 'dismiss', title: '✕ Dismiss' },
-    ],
   }
 
-  event.waitUntil(self.registration.showNotification(payload.title, options))
+  event.waitUntil(sw.registration.showNotification(payload.title, options))
 })

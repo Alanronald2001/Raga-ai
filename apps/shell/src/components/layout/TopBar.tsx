@@ -198,7 +198,7 @@ export default function TopBar({ onToggleSidebar, onToggleNotif, notifOpen }: To
 
   return (
     <header
-      className="flex items-center h-14 px-4 gap-3
+      className="flex items-center h-16 px-6 gap-4
                        bg-white border-b border-slate-100 shrink-0"
     >
       {/* ── Mobile hamburger ──────────────────────────────── */}

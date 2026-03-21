@@ -160,29 +160,28 @@ export default function LoginPage() {
               />
 
               {/* Password */}
-              <div className="relative">
-                <Input
-                  label="Password"
-                  type={showPwd ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  value={form.password}
-                  onChange={e => handleChange('password', e.target.value)}
-                  onBlur={() => handleBlur('password')}
-                  error={touched.password ? errors.password : undefined}
-                  fullWidth
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPwd(v => !v)}
-                  aria-label={showPwd ? 'Hide password' : 'Show password'}
-                  className="absolute right-3 top-[34px] text-slate-400
-                             hover:text-slate-600 transition-colors"
-                >
-                  {showPwd ? <EyeOffIcon /> : <EyeIcon />}
-                </button>
-              </div>
+              <Input
+                label="Password"
+                type={showPwd ? 'text' : 'password'}
+                placeholder="••••••••"
+                autoComplete="current-password"
+                value={form.password}
+                onChange={e => handleChange('password', e.target.value)}
+                onBlur={() => handleBlur('password')}
+                error={touched.password ? errors.password : undefined}
+                fullWidth
+                disabled={isLoading}
+                rightSection={
+                  <button
+                    type="button"
+                    onClick={() => setShowPwd(v => !v)}
+                    aria-label={showPwd ? 'Hide password' : 'Show password'}
+                    className="p-1 px-2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                  >
+                    {showPwd ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
+                }
+              />
 
               {/* Firebase error banner */}
               {authError && (

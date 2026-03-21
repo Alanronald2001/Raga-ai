@@ -31,6 +31,48 @@ export default function NotificationPanel({ onClose }: NotificationPanelProps) {
         </div>
 
         <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={async () => {
+              console.log('[Simulate] Requesting notification permission...');
+              if (Notification.permission !== 'granted') {
+                const permission = await Notification.requestPermission();
+                if (permission !== 'granted') {
+                  console.warn('[Simulate] Notification permission denied:', permission);
+                  return;
+                }
+              }
+
+              console.log('[Simulate] Finding active Service Worker...');
+              const reg = await navigator.serviceWorker.ready;
+              if (reg.active) {
+                console.log('[Simulate] Sending message to SW...');
+                reg.active.postMessage({
+                  type: '__SIMULATE_PUSH__',
+                  payload: {
+                    title: 'Test Notification',
+                    body: 'This is a simulation from the Service Worker!',
+                    type: 'success'
+                  }
+                });
+                console.log('[Simulate] Message sent successfully!');
+
+                // Control test: Direct browser notification
+                console.log('[Simulate] Firing direct browser notification test...');
+                try {
+                  new Notification('Direct Test', { body: 'If you see this, notifications are working!' });
+                } catch (e) {
+                  console.warn('[Simulate] Direct notification failed (safely ignored):', e);
+                }
+              } else {
+                console.error('[Simulate] No active service worker found to receive the message');
+              }
+            }}
+            className="text-[10px] text-slate-400 hover:text-indigo-600 uppercase tracking-wider font-bold"
+          >
+            Simulate
+          </Button>
           {unreadCount > 0 && (
             <Button
               variant="ghost"

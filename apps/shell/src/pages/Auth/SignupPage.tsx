@@ -111,12 +111,17 @@ export default function SignupPage() {
           <div className="h-1 bg-gradient-to-r from-indigo-500 via-violet-500 to-sky-500" />
 
           <div className="px-8 pt-8 pb-10">
-            <div className="flex flex-col items-center mb-8">
-              <div className="h-12 w-12 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200 mb-4">
+            <div className="flex flex-col items-center mb-10">
+              <div
+                className="h-14 w-14 rounded-2xl bg-indigo-600
+                               flex items-center justify-center
+                               shadow-xl shadow-indigo-200/50 mb-5
+                               hover:scale-105 transition-transform duration-200"
+              >
                 <HeartIcon />
               </div>
-              <h1 className="text-xl font-bold text-slate-800 tracking-tight">Create Account</h1>
-              <p className="text-sm text-slate-400 mt-1">Join HealthOS Clinical Platform</p>
+              <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Create Account</h1>
+              <p className="text-sm text-slate-400 font-medium mt-1">Join HealthOS Clinical Platform</p>
             </div>
 
             <form onSubmit={handleSubmit} noValidate className="space-y-4">
@@ -132,26 +137,26 @@ export default function SignupPage() {
                 disabled={isLoading}
               />
 
-              <div className="relative">
-                <Input
-                  label="Password"
-                  type={showPwd ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  value={form.password}
-                  onChange={e => handleChange('password', e.target.value)}
-                  onBlur={() => handleBlur('password')}
-                  error={touched.password ? errors.password : undefined}
-                  fullWidth
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPwd(v => !v)}
-                  className="absolute right-3 top-[34px] text-slate-400 hover:text-slate-600"
-                >
-                  {showPwd ? <EyeOffIcon /> : <EyeIcon />}
-                </button>
-              </div>
+              <Input
+                label="Password"
+                type={showPwd ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={form.password}
+                onChange={e => handleChange('password', e.target.value)}
+                onBlur={() => handleBlur('password')}
+                error={touched.password ? errors.password : undefined}
+                fullWidth
+                disabled={isLoading}
+                rightSection={
+                  <button
+                    type="button"
+                    onClick={() => setShowPwd(v => !v)}
+                    className="p-1 px-2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                  >
+                    {showPwd ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
+                }
+              />
 
               <Input
                 label="Confirm Password"

@@ -128,18 +128,18 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       {/* ── Logo ────────────────────────────────────────────── */}
       <div
         className={clsx(
-          'flex items-center h-14 shrink-0 border-b border-slate-100',
+          'flex items-center h-16 shrink-0 border-b border-slate-100',
           'transition-all duration-200',
-          collapsed ? 'justify-center px-0' : 'justify-between px-4'
+          collapsed ? 'justify-center px-0' : 'justify-between px-5'
         )}
       >
         {!collapsed && (
-          <div className="flex items-center gap-2 overflow-hidden">
+          <div className="flex items-center gap-2.5 overflow-hidden">
             <div
-              className="h-7 w-7 rounded-lg bg-indigo-600 flex items-center
-                            justify-center shrink-0"
+              className="h-8 w-8 rounded-lg bg-indigo-600 flex items-center
+                            justify-center shrink-0 shadow-sm shadow-indigo-200"
             >
-              <svg viewBox="0 0 20 20" fill="white" className="w-4 h-4">
+              <svg viewBox="0 0 20 20" fill="white" className="w-4.5 h-4.5">
                 <path
                   fillRule="evenodd"
                   clipRule="evenodd"
@@ -160,7 +160,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           onClick={onToggle}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           className={clsx(
-            'p-1.5 rounded-lg text-slate-400 transition-colors',
+            'p-2 rounded-lg text-slate-400 transition-colors',
             'hover:text-slate-600 hover:bg-slate-100',
             collapsed && 'mx-auto'
           )}
@@ -170,7 +170,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       </div>
 
       {/* ── Nav items ───────────────────────────────────────── */}
-      <nav className="flex flex-col gap-0.5 p-2 flex-1 overflow-y-auto overflow-x-hidden">
+      <nav className="flex flex-col gap-1 p-2.5 flex-1 overflow-y-auto overflow-x-hidden">
         {NAV_ITEMS.map(({ to, label, icon, end }) => {
           const linkEl = (
             <NavLink
@@ -178,13 +178,13 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
               end={end}
               className={({ isActive }) =>
                 clsx(
-                  'flex items-center gap-3 rounded-lg text-sm font-medium',
+                  'flex items-center gap-3 rounded-xl text-sm font-medium',
                   'transition-all duration-150 select-none',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500',
-                  collapsed ? 'justify-center p-2.5' : 'px-3 py-2.5',
+                  collapsed ? 'justify-center p-2.5' : 'px-3.5 py-3',
                   isActive
-                    ? 'bg-indigo-50 text-indigo-700'
-                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                    ? 'bg-indigo-50 text-indigo-700 shadow-sm shadow-indigo-100/50'
+                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
                 )
               }
             >
@@ -210,7 +210,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
         <div
           className={clsx(
             'shrink-0 border-t border-slate-100 transition-all duration-200',
-            collapsed ? 'p-2' : 'p-3'
+            collapsed ? 'p-2.5' : 'p-4'
           )}
         >
           {collapsed ? (

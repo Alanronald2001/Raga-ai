@@ -3,8 +3,8 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { Skeleton } from '@raga/shared-ui'
 import { ErrorBoundary } from '@raga/shared-ui'
 // ── Lazy pages ────────────────────────────────────────────────────
-const DashboardPage = lazy(() => import('../pages/DashboardPage'))
-const AnalyticsPage = lazy(() => import('../pages/AnalyticsPage'))
+const DashboardPage = lazy(() => import('../pages/Dashboard/DashboardPage'))
+const AnalyticsPage = lazy(() => import('../pages/Analytics/AnalyticsPage'))
 
 // ── Suspense fallback ─────────────────────────────────────────────
 function PageSkeleton() {

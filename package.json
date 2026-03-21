@@ -1,14 +1,21 @@
 {
   "name": "raga-ai",
   "private": true,
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
-    "dev:all": "turbo run dev",
+    "dev:all": "pnpm --parallel -r run dev",
     "build:all": "turbo run build",
     "lint:all": "turbo run lint",
     "clean:all": "turbo run clean"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/lodash": "^4.17.24",
+    "autoprefixer": "^10.4.27",
     "pnpm": "^9.0.0",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
     "turbo": "latest"
   }
 }

@@ -7,7 +7,7 @@ import {
   useCallback,
   type ReactNode,
 } from 'react'
-import { signIn, signOut, subscribeToAuthState, getIdToken } from '../services/auth'
+import { signIn, signUp as firebaseSignUp, signOut, subscribeToAuthState, getIdToken } from '../services/auth'
 import type { User, BridgeMessage } from '@raga/shared-types'
 
 // ── Inline helper (needs React ref, so lives here not in shared-types) ──
@@ -21,6 +21,7 @@ interface AuthContextValue {
   loading: boolean
   error: string | null
   login: (email: string, password: string) => Promise<void>
+  signUp: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -90,6 +91,18 @@ export function AuthProvider({ children, mfeRefs = [] }: AuthProviderProps) {
     }
   }, [])
 
+  const signUp = useCallback(async (email: string, password: string) => {
+    setLoading(true)
+    setError(null)
+    try {
+      await firebaseSignUp(email, password)
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Sign up failed'
+      setError(friendlyError(msg))
+      setLoading(false)
+    }
+  }, [])
+
   const logout = useCallback(async () => {
     setLoading(true)
     try {
@@ -100,7 +113,7 @@ export function AuthProvider({ children, mfeRefs = [] }: AuthProviderProps) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, error, login, signUp, logout }}>
       {children}
     </AuthContext.Provider>
   )

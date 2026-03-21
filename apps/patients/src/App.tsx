@@ -1,12 +1,12 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { createBrowserRouter, RouterProvider, Navigate, useLocation } from 'react-router-dom'
-import { PatientProvider } from '../context/PatientContext'
+import { PatientProvider } from './context/PatientContext'
 import { postToShell } from '@raga/shared-types'
 import { Skeleton, SkeletonCard } from '@raga/shared-ui'
 
 // ── Lazy pages ────────────────────────────────────────────────────
-const PatientsPage = lazy(() => import('../pages/Patients/PatientsPage'))
-const PatientDetailPage = lazy(() => import('../pages/PatientDetail/PatientDetailPage'))
+const PatientsPage = lazy(() => import('./pages/Patients/PatientsPage'))
+const PatientDetailPage = lazy(() => import('./pages/PatientDetail/PatientDetailPage'))
 
 // ── Skeletons (same as before) ────────────────────────────────────
 function ListSkeleton() {

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { Button, Input, Spinner } from '@raga/shared-ui'
 import clsx from 'clsx'
@@ -240,6 +240,15 @@ export default function LoginPage() {
             <p className="text-center text-xs text-slate-300 mt-3">
               {DEMO.email} · {DEMO.password}
             </p>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-slate-500">
+                Don't have an account?{' '}
+                <Link to="/signup" className="text-indigo-600 font-semibold hover:text-indigo-700">
+                  Sign up
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
 

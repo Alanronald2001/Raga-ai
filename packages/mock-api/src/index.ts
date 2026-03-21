@@ -1,5 +1,5 @@
 import delay from './delay'
-import { patients } from './data/patients'
+import { patients } from "./data/patient"
 import { analyticsData } from './data/analytics'
 import { kpiCards, recentAppointments, activityFeed } from './data/dashboard'
 import type { Patient, Appointment, KPICard, AnalyticsData } from '@raga/shared-types'

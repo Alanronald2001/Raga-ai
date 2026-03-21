@@ -1,0 +1,16 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, } from 'recharts';
+const fmt = (v) => v >= 100000 ? `₹${(v / 100000).toFixed(1)}L` : `₹${(v / 1000).toFixed(0)}K`;
+export default function RevenueAreaChart({ data }) {
+    const totalRevenue = data.reduce((s, d) => s + d.revenue, 0);
+    const totalExpenses = data.reduce((s, d) => s + d.expenses, 0);
+    const netMargin = (((totalRevenue - totalExpenses) / totalRevenue) * 100).toFixed(1);
+    return (_jsxs("div", { className: "bg-white rounded-xl border border-slate-100 shadow-sm p-5", children: [_jsxs("div", { className: "flex items-start justify-between mb-4", children: [_jsxs("div", { children: [_jsx("h2", { className: "text-sm font-semibold text-slate-800", children: "Revenue Overview" }), _jsx("p", { className: "text-xs text-slate-400 mt-0.5", children: "Revenue vs expenses (area)" })] }), _jsxs("div", { className: "flex flex-col gap-1 items-end", children: [_jsxs("span", { className: "text-[10px] bg-indigo-50 text-indigo-700\n                           rounded-full px-2 py-0.5 font-medium", children: ["Rev: ", fmt(totalRevenue)] }), _jsxs("span", { className: "text-[10px] bg-red-50 text-red-600\n                           rounded-full px-2 py-0.5 font-medium", children: ["Exp: ", fmt(totalExpenses)] }), _jsxs("span", { className: "text-[10px] bg-emerald-50 text-emerald-700\n                           rounded-full px-2 py-0.5 font-medium", children: ["Margin: ", netMargin, "%"] })] })] }), _jsx(ResponsiveContainer, { width: "100%", height: 200, children: _jsxs(AreaChart, { data: data, margin: { top: 5, right: 5, left: -10, bottom: 0 }, children: [_jsxs("defs", { children: [_jsxs("linearGradient", { id: "revGrad", x1: "0", y1: "0", x2: "0", y2: "1", children: [_jsx("stop", { offset: "5%", stopColor: "#6366f1", stopOpacity: 0.2 }), _jsx("stop", { offset: "95%", stopColor: "#6366f1", stopOpacity: 0 })] }), _jsxs("linearGradient", { id: "expGrad", x1: "0", y1: "0", x2: "0", y2: "1", children: [_jsx("stop", { offset: "5%", stopColor: "#ef4444", stopOpacity: 0.15 }), _jsx("stop", { offset: "95%", stopColor: "#ef4444", stopOpacity: 0 })] })] }), _jsx(CartesianGrid, { strokeDasharray: "3 3", stroke: "#f1f5f9" }), _jsx(XAxis, { dataKey: "month", tick: { fontSize: 11, fill: '#94a3b8' }, axisLine: false, tickLine: false }), _jsx(YAxis, { tickFormatter: fmt, tick: { fontSize: 10, fill: '#94a3b8' }, axisLine: false, tickLine: false }), _jsx(Tooltip, { formatter: (v) => fmt(v), contentStyle: {
+                                background: '#1e293b',
+                                border: 'none',
+                                borderRadius: '8px',
+                                color: '#f8fafc',
+                                fontSize: '12px',
+                                padding: '8px 12px',
+                            } }), _jsx(Area, { type: "monotone", dataKey: "revenue", name: "Revenue", stroke: "#6366f1", strokeWidth: 2, fill: "url(#revGrad)", dot: false, activeDot: { r: 4, fill: '#6366f1' } }), _jsx(Area, { type: "monotone", dataKey: "expenses", name: "Expenses", stroke: "#ef4444", strokeWidth: 2, fill: "url(#expGrad)", dot: false, activeDot: { r: 4, fill: '#ef4444' } })] }) })] }));
+}

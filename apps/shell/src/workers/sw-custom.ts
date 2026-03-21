@@ -1,5 +1,9 @@
 /// <reference lib="webworker" />
-declare const self: ServiceWorkerGlobalScope
+declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any }
+
+// Precache manifest injection point
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const manifest = self.__WB_MANIFEST
 
 // ── Constants ─────────────────────────────────────────────────────
 const CACHE_NAME = 'healthos-shell-v1'
@@ -15,10 +19,11 @@ const SHELL_ASSETS = [
 // ── Install: precache shell assets ────────────────────────────────
 self.addEventListener('install', (event: ExtendableEvent) => {
   event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then(cache => cache.addAll(SHELL_ASSETS))
-      .then(() => self.skipWaiting()) // activate immediately
+    caches.open(CACHE_NAME).then(async cache => {
+      // Add each asset individually so one missing file doesn't abort the install
+      await Promise.allSettled(SHELL_ASSETS.map(url => cache.add(url).catch(() => {})))
+      await self.skipWaiting()
+    })
   )
 })
 
@@ -39,9 +44,13 @@ self.addEventListener('fetch', (event: FetchEvent) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') return
 
-  // Skip cross-origin requests (Firebase, CDNs — handled by Workbox)
   const url = new URL(event.request.url)
+
+  // Skip cross-origin requests (Firebase, CDNs — handled by Workbox)
   if (url.origin !== self.location.origin) return
+
+  // Skip Vite internal HMR / dev-server requests so they're never intercepted
+  if (url.pathname.startsWith('/@vite/') || url.pathname.startsWith('/@fs/') || url.pathname.startsWith('/__vite')) return
 
   event.respondWith(
     fetch(event.request)

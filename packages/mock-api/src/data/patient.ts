@@ -152,7 +152,7 @@ export const patients: Patient[] = [
     address: '6 Thiruvananthapuram, KL 695001',
     lastVisit: '2024-03-19', nextAppointment: '2024-03-22',
     vitals: { bloodPressure: '168/102', heartRate: 95, temperature: 99.2, oxygenSaturation: 93, weight: 68 },
-    notes: 'Parkinson's — freezing episodes. Levodopa adjusted.'
+    notes: "Parkinson's — freezing episodes. Levodopa adjusted."
   },
   {
     id: 'p018', name: 'Rekha Bose', age: 44, gender: 'female',

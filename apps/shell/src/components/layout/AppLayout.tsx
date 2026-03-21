@@ -20,8 +20,8 @@ export default function AppLayout() {
   const [notifOpen, setNotifOpen] = useState(false)
 
   // ── MFE iframe refs ────────────────────────────────────────────
-  const patientsRef = useRef<HTMLIFrameElement>(null)
-  const analyticsRef = useRef<HTMLIFrameElement>(null)
+  const patientsRef = useRef<HTMLIFrameElement | null>(null)
+  const analyticsRef = useRef<HTMLIFrameElement | null>(null)
 
   // ── Bridge — centralises all cross-frame messaging ─────────────
   const { postToPatients, postToAnalytics } = useMFEBridge({

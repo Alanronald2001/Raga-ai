@@ -1,7 +1,5 @@
-@import '@raga/shared-ui/src/styles.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "@raga/shared-ui/styles.css";
 /* Match shell background for seamless iframe */
 :root {
   --bg-base: #f8fafc;

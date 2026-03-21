@@ -12,7 +12,8 @@
       "@raga/shared-types": ["../../packages/shared-types/src"],
       "@raga/shared-ui": ["../../packages/shared-ui/src"],
       "@raga/mock-api": ["../../packages/mock-api/src"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }

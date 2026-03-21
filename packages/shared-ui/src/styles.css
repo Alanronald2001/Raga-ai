@@ -1,9 +1,3 @@
-/* ═══════════════════════════════════════════════════════════════
-   HealthOS Design Tokens
-   Import in each app's index.css:
-   @import '@raga/shared-ui/src/styles.css';
-════════════════════════════════════════════════════════════════ */
-
 :root {
   /* ── Backgrounds ────────────────────────────────────────────── */
   --color-bg-primary: #f1f5f9; /* main content area       */

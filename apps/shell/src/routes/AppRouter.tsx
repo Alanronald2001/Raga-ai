@@ -4,8 +4,9 @@ import { Skeleton } from '@raga/shared-ui'
 import AuthGuard from '../components/layout/AuthGuard'
 import { ErrorBoundary } from '@raga/shared-ui'
 // ── Lazy pages ────────────────────────────────────────────────────
-const LoginPage = lazy(() => import('../pages/LoginPage'))
-const AppLayout = lazy(() => import('../layout/AppLayout'))
+const LoginPage = lazy(() => import('../pages/Auth/LoginPage'))
+const SignupPage = lazy(() => import('../pages/Auth/SignupPage'))
+const AppLayout = lazy(() => import('../components/layout/AppLayout'))
 const DashboardEmbed = lazy(() => import('../pages/DashboardEmbed'))
 const AnalyticsEmbed = lazy(() => import('../pages/AnalyticsEmbed'))
 const PatientsEmbed = lazy(() => import('../pages/PatientsEmbed'))
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
       </SuspenseRoute>
     ),
   },
+  {
+    path: '/signup',
+    element: (
+      <SuspenseRoute>
+        <SignupPage />
+      </SuspenseRoute>
+    ),
+  },
 
   // Protected — all routes under AuthGuard + AppLayout
   {
@@ -49,9 +58,7 @@ const router = createBrowserRouter([
       <AuthGuard>
         <SuspenseRoute>
           <ErrorBoundary>
-            <AppLayout>
-              <Outlet />
-            </AppLayout>
+            <AppLayout />
           </ErrorBoundary>
         </SuspenseRoute>
       </AuthGuard>

@@ -12,14 +12,14 @@ const ANALYTICS_ORIGIN = import.meta.env.VITE_ANALYTICS_URL ?? 'http://localhost
 const ALLOWED_ORIGINS = new Set([PATIENTS_ORIGIN, ANALYTICS_ORIGIN])
 
 // ── Helper ────────────────────────────────────────────────────────
-function postTo(ref: RefObject<HTMLIFrameElement>, msg: BridgeMessage, origin: string) {
+function postTo(ref: RefObject<HTMLIFrameElement | null>, msg: BridgeMessage, origin: string) {
   ref.current?.contentWindow?.postMessage(msg, origin)
 }
 
 // ── Hook ──────────────────────────────────────────────────────────
 export interface UseMFEBridgeOptions {
-  patientsRef: RefObject<HTMLIFrameElement>
-  analyticsRef: RefObject<HTMLIFrameElement>
+  patientsRef: RefObject<HTMLIFrameElement | null>
+  analyticsRef: RefObject<HTMLIFrameElement | null>
 }
 
 export interface UseMFEBridgeReturn {

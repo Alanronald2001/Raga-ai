@@ -1,11 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 
 export default defineConfig({
   plugins: [
     react(),
+    tailwindcss(),
     VitePWA({
       srcDir: 'src/workers',
       filename: 'sw-custom.ts',
@@ -13,7 +15,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       devOptions: {
-        enabled: true,
+        enabled: false,
         type: 'module',
       },
 

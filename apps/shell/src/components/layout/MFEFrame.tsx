@@ -15,13 +15,13 @@ interface MFEFrameProps {
 }
 
 // ── Helper: post typed message to iframe ──────────────────────────
-function postToIframe(ref: React.RefObject<HTMLIFrameElement>, msg: BridgeMessage) {
+function postToIframe(ref: React.RefObject<HTMLIFrameElement | null>, msg: BridgeMessage) {
   ref.current?.contentWindow?.postMessage(msg, '*')
 }
 
 // ── Component ─────────────────────────────────────────────────────
 export default function MFEFrame({ src, title, onMessage, className }: MFEFrameProps) {
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const iframeRef = useRef<HTMLIFrameElement | null>(null)
   const [loading, setLoading] = useState(true)
   const [errored, setErrored] = useState(false)
   const titleId = useId()

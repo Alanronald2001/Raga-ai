@@ -1,8 +1,9 @@
+import React from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { Spinner } from '@raga/shared-ui'
 
-export default function AuthGuard() {
+export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
   const location = useLocation()
 
@@ -20,6 +21,6 @@ export default function AuthGuard() {
     return <Navigate to="/login" state={{ from: location }} replace />
   }
 
-  // Authenticated — render matched child route
-  return <Outlet />
+  // Authenticated — render children
+  return <>{children}</>
 }

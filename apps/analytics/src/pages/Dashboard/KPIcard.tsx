@@ -2,70 +2,11 @@ import type { KPICard as KPICardType } from '@raga/shared-types'
 import type { AdmissionPoint } from '@raga/shared-types'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import clsx from 'clsx'
+import React from 'react'
 
 interface KPICardProps {
   kpi: KPICardType
   trend: AdmissionPoint[]
-}
-
-const ICON_MAP: Record<string, React.ReactNode> = {
-  Users: <UsersIcon />,
-  Calendar: <CalendarIcon />,
-  BedDouble: <BedIcon />,
-  IndianRupee: <RupeeIcon />,
-  AlertTriangle: <AlertIcon />,
-  Clock: <ClockIcon />,
-  LogOut: <LogOutIcon />,
-  Stethoscope: <StethIcon />,
-}
-
-export default function KPICard({ kpi, trend }: KPICardProps) {
-  const isUp = kpi.deltaType === 'increase'
-  const isDown = kpi.deltaType === 'decrease'
-  const isNeutral = kpi.deltaType === 'neutral'
-
-  const deltaColor = isNeutral ? 'text-slate-400' : isUp ? 'text-emerald-600' : 'text-red-500'
-
-  const sparkData = trend.map(t => ({ v: t.admissions }))
-
-  return (
-    <div
-      className="bg-white rounded-xl border border-slate-100
-                    shadow-sm p-4 flex flex-col gap-3 hover:shadow-md
-                    transition-shadow duration-200"
-    >
-      {/* Top row */}
-      <div className="flex items-start justify-between">
-        <div
-          className="h-9 w-9 rounded-lg flex items-center justify-center"
-          style={{ backgroundColor: `${kpi.color}18` }}
-        >
-          <span style={{ color: kpi.color }}>{ICON_MAP[kpi.icon] ?? <DefaultIcon />}</span>
-        </div>
-
-        {/* Sparkline */}
-        <div className="w-16 h-8">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={sparkData}>
-              <Line type="monotone" dataKey="v" stroke={kpi.color} strokeWidth={1.5} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Value */}
-      <div>
-        <p className="text-2xl font-bold text-slate-800 leading-tight tabular-nums">{kpi.value}</p>
-        <p className="text-xs text-slate-400 mt-0.5 truncate">{kpi.title}</p>
-      </div>
-
-      {/* Delta */}
-      <div className={clsx('flex items-center gap-1 text-xs font-medium', deltaColor)}>
-        {!isNeutral && <span>{isUp ? '↑' : '↓'}</span>}
-        <span>{Math.abs(kpi.delta)}% vs last month</span>
-      </div>
-    </div>
-  )
 }
 
 // ── Mini icons ─────────────────────────────────────────────────────
@@ -135,3 +76,63 @@ const DefaultIcon = () => (
     <circle cx="10" cy="10" r="8" />
   </svg>
 )
+
+const ICON_MAP: Record<string, React.ReactNode> = {
+  Users: <UsersIcon />,
+  Calendar: <CalendarIcon />,
+  BedDouble: <BedIcon />,
+  IndianRupee: <RupeeIcon />,
+  AlertTriangle: <AlertIcon />,
+  Clock: <ClockIcon />,
+  LogOut: <LogOutIcon />,
+  Stethoscope: <StethIcon />,
+}
+
+export default function KPICard({ kpi, trend }: KPICardProps) {
+  const isUp = kpi.deltaType === 'increase'
+  const isDown = kpi.deltaType === 'decrease'
+  const isNeutral = kpi.deltaType === 'neutral'
+
+  const deltaColor = isNeutral ? 'text-slate-400' : isUp ? 'text-emerald-600' : 'text-red-500'
+
+  const sparkData = trend.map(t => ({ v: t.admissions }))
+
+  return (
+    <div
+      className="bg-white rounded-xl border border-slate-100
+                    shadow-sm p-4 flex flex-col gap-3 hover:shadow-md
+                    transition-shadow duration-200"
+    >
+      {/* Top row */}
+      <div className="flex items-start justify-between">
+        <div
+          className="h-9 w-9 rounded-lg flex items-center justify-center"
+          style={{ backgroundColor: `${kpi.color}18` }}
+        >
+          <span style={{ color: kpi.color }}>{ICON_MAP[kpi.icon] ?? <DefaultIcon />}</span>
+        </div>
+
+        {/* Sparkline */}
+        <div className="w-16 h-8">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={sparkData}>
+              <Line type="monotone" dataKey="v" stroke={kpi.color} strokeWidth={1.5} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Value */}
+      <div>
+        <p className="text-2xl font-bold text-slate-800 leading-tight tabular-nums">{kpi.value}</p>
+        <p className="text-xs text-slate-400 mt-0.5 truncate">{kpi.title}</p>
+      </div>
+
+      {/* Delta */}
+      <div className={clsx('flex items-center gap-1 text-xs font-medium', deltaColor)}>
+        {!isNeutral && <span>{isUp ? '↑' : '↓'}</span>}
+        <span>{Math.abs(kpi.delta)}% vs last month</span>
+      </div>
+    </div>
+  )
+}

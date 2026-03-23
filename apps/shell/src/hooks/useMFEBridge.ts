@@ -6,10 +6,12 @@ import { getIdToken } from '../services/auth'
 import type { BridgeMessage } from '@raga/shared-types'
 
 // ── Env origins ───────────────────────────────────────────────────
-const PATIENTS_ORIGIN = import.meta.env.VITE_PATIENTS_URL ?? 'http://localhost:5174'
-const ANALYTICS_ORIGIN = import.meta.env.VITE_ANALYTICS_URL ?? 'http://localhost:5175'
+import { MFE_ORIGINS, ALLOWED_MFE_ORIGINS } from '../config/mfe'
 
-const ALLOWED_ORIGINS = new Set([PATIENTS_ORIGIN, ANALYTICS_ORIGIN])
+const PATIENTS_ORIGIN = MFE_ORIGINS.PATIENTS
+const ANALYTICS_ORIGIN = MFE_ORIGINS.ANALYTICS
+
+const ALLOWED_ORIGINS = ALLOWED_MFE_ORIGINS
 
 // ── Helper ────────────────────────────────────────────────────────
 function postTo(ref: RefObject<HTMLIFrameElement | null>, msg: BridgeMessage, origin: string) {
